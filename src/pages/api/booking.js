@@ -2,6 +2,8 @@ import dbConnect from "../../lib/mongoose";
 import Booking from "../../models/Booking";
 import User from "../../models/User";
 import axios from "axios";
+import { verifyToken } from "../../lib/jwt";
+import cookie from "cookie";
 
 // Time helpers
 function toMinutes(t) {
@@ -15,13 +17,12 @@ function overlaps(s1, e1, s2, e2) {
   );
 }
 
-// Google Calendar link
+// Google Calendar link generator
 function generateGoogleCalendarLink(b) {
   const startUTC =
     b.date.replace(/-/g, "") + "T" + b.start.replace(/:/g, "") + "00Z";
   const endUTC =
     b.date.replace(/-/g, "") + "T" + b.end.replace(/:/g, "") + "00Z";
-
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
     b.purpose || "Meeting"
   )}&dates=${startUTC}/${endUTC}&details=${encodeURIComponent(
@@ -37,46 +38,69 @@ async function parseAI(command) {
   return res.data.parsed;
 }
 
+// Normalize for case-insensitive matching
+function normalize(str) {
+  return str.trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+// --- Get logged-in user from JWT cookie ---
+function getUserFromRequest(req) {
+  const cookies = req.headers.cookie ? cookie.parse(req.headers.cookie) : {};
+  const token = cookies.token;
+  if (!token) return null;
+  return verifyToken(token);
+}
+
 export default async function handler(req, res) {
   await dbConnect();
 
-  if (req.method !== "POST") {
+  if (req.method !== "POST")
     return res.status(405).json({ error: "Method not allowed" });
-  }
 
-  const { organizerEmail, command } = req.body;
-  if (!organizerEmail || !command) {
-    return res.status(400).json({ error: "Missing fields" });
-  }
+  // --- 1️⃣ Get logged-in user from JWT ---
+  const user = getUserFromRequest(req);
+  if (!user) return res.status(401).json({ error: "Not authenticated" });
+  const organizerEmail = user.email;
 
-  // 1️⃣ Parse the natural language command
+  // --- 2️⃣ Validate input ---
+  const { command } = req.body;
+  if (!command) return res.status(400).json({ error: "Command required" });
+
+  // --- 3️⃣ Parse AI command ---
   let parsed;
   try {
     parsed = await parseAI(command);
-  } catch {
-    return res.status(500).json({ error: "AI failed to parse command" });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ error: "AI failed to parse command", details: err.message });
   }
 
-  // 2️⃣ Deduplicate dates (prevents double insert)
+  // Deduplicate dates
   const dates = [...new Set(parsed.dates)];
 
-  // 3️⃣ Match participants to registered users
+  // --- 4️⃣ Match participants ---
   const allUsers = await User.find();
   const matched = parsed.participants
-    .map((name) =>
-      allUsers.find(
-        (u) =>
-          u.fullName.toLowerCase() === name.toLowerCase() ||
-          u.fullName.toLowerCase().includes(name.toLowerCase())
-      )
-    )
+    .map((pName) => {
+      // exact match first
+      let match = allUsers.find(
+        (u) => normalize(u.fullName) === normalize(pName)
+      );
+      if (!match) {
+        // fallback to includes
+        match = allUsers.find((u) =>
+          normalize(u.fullName).includes(normalize(pName))
+        );
+      }
+      return match;
+    })
     .filter(Boolean);
 
   if (matched.length !== parsed.participants.length) {
-    return res.json({
-      success: false,
-      error: "Some participants not registered",
-    });
+    return res
+      .status(400)
+      .json({ success: false, error: "Some participants not registered" });
   }
 
   const participantPayload = matched.map((u) => ({
@@ -86,9 +110,9 @@ export default async function handler(req, res) {
 
   const createdBookings = [];
 
-  // 4️⃣ Loop dates (safe, deduped)
+  // --- 5️⃣ Loop dates ---
   for (const date of dates) {
-    // --- 4A: Check if this exact booking already exists (IDEMPOTENCY) ---
+    // Idempotency check
     const existing = await Booking.findOne({
       organizerEmail,
       date,
@@ -98,7 +122,6 @@ export default async function handler(req, res) {
     });
 
     if (existing) {
-      // Prevents duplicates 100%
       createdBookings.push({
         booking: existing,
         googleCalendarLink: generateGoogleCalendarLink(existing),
@@ -107,19 +130,17 @@ export default async function handler(req, res) {
       continue;
     }
 
-    // --- 4B: Conflict check for each participant ---
-    const participantEmails = matched.map((u) => u.email);
+    // Conflict check
     const conflicts = await Booking.find({
-      "participants.email": { $in: participantEmails },
+      "participants.email": { $in: matched.map((u) => u.email) },
       date,
     });
-
     const hasConflict = conflicts.some((b) =>
       overlaps(parsed.start, parsed.end, b.start, b.end)
     );
     if (hasConflict) continue;
 
-    // --- 4C: Create NEW booking ---
+    // Create new booking
     const booking = await Booking.create({
       organizerEmail,
       participants: participantPayload,

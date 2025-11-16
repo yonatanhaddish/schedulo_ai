@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const UserSchema = new mongoose.Schema({
   fullName: { type: String, required: true, index: true },
   email: { type: String, required: true, unique: true, index: true },
+  password: { type: String, required: true }, // ✅ hashed password
   createdAt: { type: Date, default: Date.now },
 });
 
