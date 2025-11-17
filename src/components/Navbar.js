@@ -7,9 +7,21 @@ import {
   Box,
   IconButton,
 } from "@mui/material";
+
+import { useRouter } from "next/router";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 
 function Navbar() {
+  const router = useRouter();
+
+  const handleLoginClicked = () => {
+    router.push("/login");
+  };
+
+  const handleSignupClicked = () => {
+    router.push("signup");
+  };
+
   return (
     <AppBar position="static" sx={{ backgroundColor: "#f5f5f5", height: "8%" }}>
       <Toolbar sx={{}}>
@@ -38,6 +50,7 @@ function Navbar() {
         >
           <Button
             sx={{ width: "35%", border: "solid #ad62d5 2px", color: "#4e4e4d" }}
+            onClick={handleLoginClicked}
           >
             Login
           </Button>
@@ -48,6 +61,7 @@ function Navbar() {
               backgroundColor: "#ad62d5",
               color: "#f5f5f5",
             }}
+            onClick={handleSignupClicked}
           >
             Signup
           </Button>
