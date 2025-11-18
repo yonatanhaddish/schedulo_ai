@@ -23,7 +23,7 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#f5f5f5", height: "9%" }}>
+    <AppBar position="static" sx={{ backgroundColor: "#f5f5f5", height: "8%" }}>
       <Toolbar sx={{}}>
         <IconButton
           edge="start"
