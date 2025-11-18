@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { Box, TextField, Button, Typography, Alert } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Footer from "../components/Footer";
 
 function SignupPage() {
   const router = useRouter();
@@ -45,159 +46,162 @@ function SignupPage() {
   };
 
   return (
-    <Box sx={{ height: "100vh", backgroundColor: "#c6c6c6" }}>
-      <Box
-        sx={{
-          height: "8%",
-          display: "flex",
-          //   border: "solid green 2px",
-          width: "200px",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Button onClick={handleGoHomePage} sx={{ color: "black" }}>
-          <ArrowBackIcon sx={{ fontSize: "30px" }} />
-          <Typography sx={{}}>Go Back</Typography>
-        </Button>
-      </Box>
-      <Box sx={{ height: "92%", display: "flex" }}>
+    <Box sx={{ height: "100vh" }}>
+      <Box sx={{ height: "95%", backgroundColor: "#c6c6c6" }}>
         <Box
           sx={{
-            // border: "solid blue 2px",
-            width: "50%",
-            height: "90%",
-            backgroundImage: "url('/images/landing_page.jpeg')",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            alignSelf: "center",
-          }}
-        >
-          {" "}
-        </Box>
-        <Box
-          sx={{
-            maxWidth: "400px",
-            mx: "auto",
-            mt: 8,
-            p: 4,
-            border: "1px solid #ff",
-            borderRadius: 2,
-            boxShadow: 2,
-            height: "92%",
+            height: "8%",
             display: "flex",
-            flexDirection: "column",
-            maxHeight: "600px",
-            gap: "40px",
-            backgroundColor: "#f5f5f5",
+            //   border: "solid green 2px",
+            width: "200px",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <Typography variant="h5" sx={{ mb: 2, textAlign: "center" }}>
-            Create an Account
-          </Typography>
+          <Button onClick={handleGoHomePage} sx={{ color: "black" }}>
+            <ArrowBackIcon sx={{ fontSize: "30px" }} />
+            <Typography sx={{}}>Go Back</Typography>
+          </Button>
+        </Box>
+        <Box sx={{ height: "87%", display: "flex" }}>
+          <Box
+            sx={{
+              // border: "solid blue 2px",
+              width: "50%",
+              height: "90%",
+              backgroundImage: "url('/images/landing_page.jpeg')",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              alignSelf: "center",
+            }}
+          >
+            {" "}
+          </Box>
+          <Box
+            sx={{
+              maxWidth: "400px",
+              mx: "auto",
+              mt: 8,
+              p: 4,
+              border: "1px solid #ff",
+              borderRadius: 2,
+              boxShadow: 2,
+              height: "84%",
+              display: "flex",
+              flexDirection: "column",
+              maxHeight: "500px",
+              gap: "40px",
+              backgroundColor: "#f5f5f5",
+            }}
+          >
+            <Typography variant="h5" sx={{ mb: 2, textAlign: "center" }}>
+              Create an Account
+            </Typography>
 
-          {error && (
-            <Alert severity="error" sx={{ mb: 2 }}>
-              {error}
-            </Alert>
-          )}
+            {error && (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                {error}
+              </Alert>
+            )}
 
-          <form onSubmit={handleSubmit}>
-            <TextField
-              label="Full Name"
-              variant="outlined"
-              fullWidth
-              required
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              InputLabelProps={{
-                shrink: true, // keep label on top
-                style: { color: "#ad62d5" }, // label color
-              }}
-              sx={{
-                mb: 2,
+            <form onSubmit={handleSubmit}>
+              <TextField
+                label="Full Name"
+                variant="outlined"
+                fullWidth
+                required
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                InputLabelProps={{
+                  shrink: true, // keep label on top
+                  style: { color: "#ad62d5" }, // label color
+                }}
+                sx={{
+                  mb: 2,
 
-                "& .MuiOutlinedInput-root": {
-                  //   border: "2px solid #ad62d5",
-                  "&:hover fieldset": {
-                    border: "2px solid #ad62d5",
+                  "& .MuiOutlinedInput-root": {
+                    //   border: "2px solid #ad62d5",
+                    "&:hover fieldset": {
+                      border: "2px solid #ad62d5",
+                    },
+                    "&.Mui-focused fieldset": {
+                      border: "2px solid #ad62d5", // keep same border on focus
+                    },
                   },
-                  "&.Mui-focused fieldset": {
-                    border: "2px solid #ad62d5", // keep same border on focus
-                  },
-                },
-              }}
-            />
+                }}
+              />
 
-            <TextField
-              label="Email"
-              type="email"
-              variant="outlined"
-              fullWidth
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              InputLabelProps={{
-                shrink: true, // keep label on top
-                style: { color: "#ad62d5" }, // label color
-              }}
-              sx={{
-                mb: 2,
-                "& .MuiOutlinedInput-root": {
-                  //   border: "2px solid #ad62d5",
-                  "&:hover fieldset": {
-                    border: "2px solid #ad62d5",
+              <TextField
+                label="Email"
+                type="email"
+                variant="outlined"
+                fullWidth
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                InputLabelProps={{
+                  shrink: true, // keep label on top
+                  style: { color: "#ad62d5" }, // label color
+                }}
+                sx={{
+                  mb: 2,
+                  "& .MuiOutlinedInput-root": {
+                    //   border: "2px solid #ad62d5",
+                    "&:hover fieldset": {
+                      border: "2px solid #ad62d5",
+                    },
+                    "&.Mui-focused fieldset": {
+                      border: "2px solid #ad62d5", // keep same border on focus
+                    },
                   },
-                  "&.Mui-focused fieldset": {
-                    border: "2px solid #ad62d5", // keep same border on focus
-                  },
-                },
-              }}
-            />
+                }}
+              />
 
-            <TextField
-              label="Password"
-              type="password"
-              variant="outlined"
-              fullWidth
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              InputLabelProps={{
-                shrink: true, // keep label on top
-                style: { color: "#ad62d5" }, // label color
-              }}
-              sx={{
-                mb: 3,
-                "& .MuiOutlinedInput-root": {
-                  //   border: "2px solid #ad62d5",
-                  "&:hover fieldset": {
-                    border: "2px solid #ad62d5",
+              <TextField
+                label="Password"
+                type="password"
+                variant="outlined"
+                fullWidth
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                InputLabelProps={{
+                  shrink: true, // keep label on top
+                  style: { color: "#ad62d5" }, // label color
+                }}
+                sx={{
+                  mb: 3,
+                  "& .MuiOutlinedInput-root": {
+                    //   border: "2px solid #ad62d5",
+                    "&:hover fieldset": {
+                      border: "2px solid #ad62d5",
+                    },
+                    "&.Mui-focused fieldset": {
+                      border: "2px solid #ad62d5", // keep same border on focus
+                    },
                   },
-                  "&.Mui-focused fieldset": {
-                    border: "2px solid #ad62d5", // keep same border on focus
-                  },
-                },
-              }}
-            />
+                }}
+              />
 
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{ backgroundColor: "#ad62d5" }}
-              fullWidth
-              disabled={loading}
-            >
-              {loading ? "Signing up..." : "Sign Up"}
-            </Button>
-          </form>
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ backgroundColor: "#ad62d5" }}
+                fullWidth
+                disabled={loading}
+              >
+                {loading ? "Signing up..." : "Sign Up"}
+              </Button>
+            </form>
 
-          <Typography sx={{ mt: 2, textAlign: "center" }}>
-            Already have an account?{" "}
-            <Button onClick={() => router.push("/login")}>Login</Button>
-          </Typography>
+            <Typography sx={{ mt: 2, textAlign: "center" }}>
+              Already have an account?{" "}
+              <Button onClick={() => router.push("/login")}>Login</Button>
+            </Typography>
+          </Box>
         </Box>
       </Box>
+      <Footer />
     </Box>
   );
 }

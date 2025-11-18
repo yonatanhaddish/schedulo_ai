@@ -19,6 +19,7 @@ import {
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import CheckIcon from "@mui/icons-material/Check";
 import ErrorIcon from "@mui/icons-material/Error";
+import Footer from "@/components/Footer";
 
 export default function Chatbot() {
   const [command, setCommand] = useState("");
@@ -144,6 +145,7 @@ export default function Chatbot() {
           display: "flex",
           height: "8%",
           justifyContent: "space-between",
+          // border: "solid blue 2px",
         }}
       >
         <Box
@@ -152,6 +154,7 @@ export default function Chatbot() {
             width: "150px",
             alignItems: "center",
             marginLeft: "20px",
+            // border: "solid blue 2px",
           }}
         >
           <IconButton edge="start" sx={{ color: "#ad62d5" }}>
@@ -165,14 +168,21 @@ export default function Chatbot() {
 
         <Box
           sx={{
-            width: "160px",
+            width: "450px",
             textAlign: "center",
             alignSelf: "center",
+            // border: "solid blue 2px",
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
           }}
         >
+          <Typography sx={{ borderBottom: "solid #964ec0 1px" }}>
+            {/* Homer Simpson{" "} */}
+          </Typography>
           <Button
             sx={{
-              width: "60%",
+              width: "120px",
               backgroundColor: "#ad62d5",
               color: "#f5f5f5",
               ":hover": { backgroundColor: "#964ec0" },
@@ -183,12 +193,11 @@ export default function Chatbot() {
           </Button>
         </Box>
       </Box>
-
       {/* MAIN SECTION */}
       <Box
         sx={{
           backgroundColor: "#C6C6C6",
-          height: "84%",
+          height: "87%",
           display: "flex",
         }}
       >
@@ -340,7 +349,8 @@ export default function Chatbot() {
               ))}
           </Box>
         </Box>
-      </Box>
+      </Box>{" "}
+      <Footer />
     </Box>
   );
 }
