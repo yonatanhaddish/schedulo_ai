@@ -32,7 +32,7 @@ function generateGoogleCalendarLink(b) {
 
 // AI call
 async function parseAI(command) {
-  const res = await axios.post("http://localhost:3000/api/ai/parseCommand", {
+  const res = await axios.post("/api/ai/parseCommand", {
     command,
   });
   return res.data.parsed;
