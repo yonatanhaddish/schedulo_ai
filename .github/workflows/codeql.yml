@@ -3,14 +3,19 @@ name: "CodeQL Security Scan"
 on:
   push:
     branches:
-      - main # triggers whenever there is a push to main
-  workflow_dispatch: # still allows manual trigger
+      - main # triggers on every push to main
+  pull_request:
+    branches:
+      - main # triggers on PRs to main
+  workflow_dispatch: # allows manual trigger
   schedule:
-    - cron: "0 4 * * 1" # runs weekly (Mondays 4AM UTC)
+    - cron: "0 4 * * 1" # runs weekly (Mondays at 4AM UTC)
 
 jobs:
   analyze:
+    name: Analyze JavaScript with CodeQL
     runs-on: ubuntu-latest
+
     permissions:
       actions: read
       contents: read
@@ -30,7 +35,7 @@ jobs:
         with:
           languages: ${{ matrix.language }}
 
-      # OPTIONAL: Install Node dependencies for deeper scanning
+      # Optional: Install Node dependencies for deeper scanning
       - name: Install dependencies
         run: npm install
 
