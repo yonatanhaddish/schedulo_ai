@@ -23,8 +23,10 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Install mongoaudit
-        run: pip install mongoaudit
+      - name: Install mongoaudit and dependencies
+        run: |
+          pip install setuptools
+          pip install mongoaudit
 
       - name: Run MongoDB Security Audit
         continue-on-error: true
