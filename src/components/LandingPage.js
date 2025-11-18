@@ -3,7 +3,7 @@ import { Typography, Button, Box } from "@mui/material";
 
 function LandingPage() {
   return (
-    <Box sx={{ height: "92%", display: "flex" }}>
+    <Box sx={{ height: "87%", display: "flex" }}>
       <Box
         sx={{
           //   border: "solid blue 2px",
@@ -45,8 +45,10 @@ function LandingPage() {
             }}
           >
             <Typography sx={{ fontSize: "20px", fontWeight: "italic" }}>
-              Say goodbye to scheduling chaos. Just describe your meeting in
-              plain English — Schedulo handles the rest.
+              Say goodbye to metting scheduling chaos. Just describe your
+              meeting in plain English —{" "}
+              <span style={{ color: "#ad62d5" }}>Schedulo</span> handles the
+              rest.
             </Typography>
           </Box>
           <Box

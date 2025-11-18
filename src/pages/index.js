@@ -1,5 +1,6 @@
 import LandingPage from "../components/LandingPage";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import Head from "next/head";
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
       <div style={{ height: "100vh" }}>
         <Navbar />
         <LandingPage />
+        <Footer />
       </div>
     </>
   );

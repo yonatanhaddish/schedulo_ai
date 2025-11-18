@@ -188,7 +188,7 @@ export default function Chatbot() {
       <Box
         sx={{
           backgroundColor: "#C6C6C6",
-          height: "92%",
+          height: "84%",
           display: "flex",
         }}
       >

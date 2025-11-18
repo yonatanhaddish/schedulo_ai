@@ -59,7 +59,7 @@ function LoginPage() {
       </Box>
 
       {/* Main Layout */}
-      <Box sx={{ height: "92%", display: "flex" }}>
+      <Box sx={{ height: "84%", display: "flex" }}>
         {/* Left Image Section */}
         <Box
           sx={{
@@ -81,7 +81,7 @@ function LoginPage() {
             p: 4,
             borderRadius: 2,
             boxShadow: 2,
-            height: "92%",
+            height: "84%",
             display: "flex",
             flexDirection: "column",
             maxHeight: "600px",
