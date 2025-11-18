@@ -3,14 +3,16 @@ name: "MongoDB Security Scan"
 on:
   push:
     branches:
-      - main # triggers whenever there is a push to main
-  workflow_dispatch: # still allows manual trigger
+      - main
+  workflow_dispatch:
   schedule:
-    - cron: "0 4 * * 1" # runs weekly (Mondays 4AM UTC)
+    - cron: "0 4 * * 1"
 
 jobs:
   audit:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout repository
@@ -22,12 +24,12 @@ jobs:
           python-version: "3.x"
 
       - name: Install mongoaudit
-        run: |
-          pip install mongoaudit
+        run: pip install mongoaudit
 
       - name: Run MongoDB Security Audit
+        continue-on-error: true
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
         run: |
           echo "Running security scan on MongoDB..."
-          mongoaudit --host $MONGO_URI --ssl --verbose || true
+          mongoaudit --host $MONGO_URI --ssl --verbose
