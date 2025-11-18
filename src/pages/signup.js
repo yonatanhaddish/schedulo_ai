@@ -37,7 +37,7 @@ function SignupPage() {
       }
 
       // Redirect to dashboard or landing page after signup
-      router.push("/");
+      router.push("/chatbot");
     } catch (err) {
       setError("An unexpected error occurred");
       setLoading(false);

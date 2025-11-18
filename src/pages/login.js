@@ -33,7 +33,7 @@ function LoginPage() {
         return;
       }
 
-      router.push("/");
+      router.push("/chatbot");
     } catch (err) {
       setError("An unexpected error occurred");
       setLoading(false);

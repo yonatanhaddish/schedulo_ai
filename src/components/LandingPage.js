@@ -51,7 +51,7 @@ function LandingPage() {
           </Box>
           <Box
             sx={{
-              //   border: "solid green 2px",
+              // border: "solid green 2px",
               width: "70%",
               justifySelf: "center",
               display: "flex",

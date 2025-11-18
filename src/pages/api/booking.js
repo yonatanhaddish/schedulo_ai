@@ -132,13 +132,33 @@ export default async function handler(req, res) {
 
     // Conflict check
     const conflicts = await Booking.find({
-      "participants.email": { $in: matched.map((u) => u.email) },
       date,
+      $or: [
+        { organizerEmail }, // conflicts where organizer is busy
+        { "participants.email": { $in: matched.map((u) => u.email) } }, // conflicts for participants
+      ],
     });
-    const hasConflict = conflicts.some((b) =>
+
+    const conflictingBookings = conflicts.filter((b) =>
       overlaps(parsed.start, parsed.end, b.start, b.end)
     );
-    if (hasConflict) continue;
+
+    if (conflictingBookings.length > 0) {
+      // Return conflict info for this date
+      createdBookings.push({
+        conflict: true,
+        date,
+        start: parsed.start,
+        end: parsed.end,
+        participants: participantPayload.map((p) => p.fullName),
+        conflicts: conflictingBookings.map((b) => ({
+          participants: b.participants.map((p) => p.fullName),
+          start: b.start,
+          end: b.end,
+        })),
+      });
+      continue;
+    }
 
     // Create new booking
     const booking = await Booking.create({
