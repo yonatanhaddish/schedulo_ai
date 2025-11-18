@@ -14,7 +14,10 @@ import {
   ListItem,
   ListItemText,
   Alert,
+  Fade,
 } from "@mui/material";
+
+import emailjs from "@emailjs/browser";
 
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import CheckIcon from "@mui/icons-material/Check";
@@ -25,6 +28,7 @@ export default function Chatbot() {
   const [command, setCommand] = useState("");
   const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [loadingPage, setLoadingPage] = useState(true);
 
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
@@ -32,6 +36,8 @@ export default function Chatbot() {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [errorAlertSwitch, setErrorAlertSwitch] = useState(false);
+
+  const [resultSent, setResultSent] = useState("");
 
   const router = useRouter();
 
@@ -51,6 +57,7 @@ export default function Chatbot() {
   useEffect(() => {
     const booking = response?.createdBookings?.[0];
     if (booking && booking.duplicated === false) {
+      sendEmailToAllParticipants(booking);
       setErrorAlertSwitch(true);
       setAlertMessage("BOOKING MEETING WAS SUCCESSFUL");
       setAlertOpen(true);
@@ -101,44 +108,101 @@ export default function Chatbot() {
   const filteredUsers = users.filter((u) =>
     u.fullName.toLowerCase().includes(search.toLowerCase())
   );
-  console.log("44", response?.success);
+
+  function sendEmailToAllParticipants(booking) {
+    const { date, start, end, participants, organizerEmail, purpose } =
+      booking.booking;
+
+    // All participants in BCC (comma-separated)
+    const bccList = participants.map((p) => p.email).join(",");
+
+    const templateParams = {
+      meeting_date: date,
+      meeting_start: start,
+      meeting_end: end,
+      participants: participants.map((p) => p.fullName).join(", "),
+      organizer_email: organizerEmail,
+      meeting_purpose: purpose || "No purpose provided",
+
+      // EmailJS email target fields
+      to_email: organizerEmail,
+      bcc_list: bccList, // <<< use a safe variable name
+    };
+
+    emailjs.send(
+      process.env.NEXT_PUBLIC_SERVICE_ID,
+      process.env.NEXT_PUBLIC_TEMPLATE_ID,
+      templateParams,
+      process.env.NEXT_PUBLIC_PUBLIC_KEY
+    );
+
+    console.log("BCC list sent:", bccList);
+  }
+
+  console.log("5555555", resultSent);
+
+  useEffect(() => {
+    // setMounted(true);
+    const timer = setTimeout(() => setLoadingPage(false), 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loadingPage) {
+    return (
+      <Box
+        sx={{
+          backgroundColor: "#d9d9d9",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <SmartToyIcon sx={{ height: 100, width: 100, color: "#ad62d5" }} />
+        <CircularProgress
+          sx={{ width: 100, height: 100, mt: 2, color: "#ad62d5" }}
+        />
+      </Box>
+    );
+  }
+
   return (
     <Box sx={{ height: "100vh" }}>
       {/* TOP NAV */}
       {alertOpen && (
-        <Alert
-          icon={
-            errorAlertSwitch ? (
-              <CheckIcon
-                fontSize="inherit"
-                severity="success"
-                sx={{ color: "#f5f5f5" }}
-              />
-            ) : (
-              <ErrorIcon fontSize="inherit" sx={{ color: "#f5f5f5" }} />
-            )
-          }
-          severity="success"
-          sx={{
-            position: "fixed",
-            top: 5,
-            left: 0,
-            right: 0,
-            zIndex: 1301,
-            width: "400px",
-            margin: "0 auto",
-            height: "80px",
-            justifySelf: "center",
-            color: "#f5f5f5",
-            backgroundColor: "#ad62d5",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "0.9rem",
-          }}
-        >
-          {alertMessage}
-        </Alert>
+        <Fade in={alertOpen} timeout={500}>
+          <Alert
+            icon={
+              errorAlertSwitch ? (
+                <CheckIcon fontSize="inherit" sx={{ color: "#c6c6c6" }} />
+              ) : (
+                <ErrorIcon fontSize="inherit" sx={{ color: "#c6c6c6" }} />
+              )
+            }
+            severity="success"
+            sx={{
+              position: "fixed",
+              top: 5,
+              left: 0,
+              right: 0,
+              zIndex: 1301,
+              width: "400px",
+              margin: "0 auto",
+              height: "80px",
+              justifySelf: "center",
+              color: "#f5f5f5",
+              backgroundColor: "#ad62d5",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "0.9rem",
+            }}
+          >
+            {alertMessage}
+          </Alert>
+        </Fade>
       )}
       <Box
         sx={{

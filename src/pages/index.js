@@ -1,9 +1,43 @@
+import React, { useState, useEffect } from "react";
+
 import LandingPage from "../components/LandingPage";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Head from "next/head";
 
+import { Box } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
+
 export default function Home() {
+  const [loadingPage, setLoadingPage] = useState(true);
+
+  useEffect(() => {
+    // setMounted(true);
+    const timer = setTimeout(() => setLoadingPage(false), 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loadingPage) {
+    return (
+      <Box
+        sx={{
+          backgroundColor: "#d9d9d9",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <SmartToyIcon sx={{ height: 100, width: 100, color: "#ad62d5" }} />
+        <CircularProgress
+          sx={{ width: 100, height: 100, mt: 2, color: "#ad62d5" }}
+        />
+      </Box>
+    );
+  }
   return (
     <>
       <Head>

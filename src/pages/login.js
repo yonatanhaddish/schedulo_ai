@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Box, TextField, Button, Typography, Alert } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import CircularProgress from "@mui/material/CircularProgress";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
 import Footer from "../components/Footer";
 
 function LoginPage() {
@@ -11,6 +13,7 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loadingPage, setLoadingPage] = useState(true);
 
   const handleGoHomePage = () => router.push("/");
 
@@ -40,6 +43,33 @@ function LoginPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    // setMounted(true);
+    const timer = setTimeout(() => setLoadingPage(false), 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loadingPage) {
+    return (
+      <Box
+        sx={{
+          backgroundColor: "#d9d9d9",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <SmartToyIcon sx={{ height: 100, width: 100, color: "#ad62d5" }} />
+        <CircularProgress
+          sx={{ width: 100, height: 100, mt: 2, color: "#ad62d5" }}
+        />
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ height: "100vh" }}>
