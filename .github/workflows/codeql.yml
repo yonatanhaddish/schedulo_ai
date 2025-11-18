@@ -2,10 +2,11 @@ name: "CodeQL Security Scan"
 
 on:
   push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
-  workflow_dispatch:
+    branches:
+      - main # triggers whenever there is a push to main
+  workflow_dispatch: # still allows manual trigger
+  schedule:
+    - cron: "0 4 * * 1" # runs weekly (Mondays 4AM UTC)
 
 jobs:
   analyze:
