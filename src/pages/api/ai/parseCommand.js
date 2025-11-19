@@ -23,6 +23,7 @@ When extracting participants:
 - NEVER replace fictional names with real identities.
 - NEVER guess secret identities (e.g., Batman → Bruce Wayne, SpiderMan → Peter Parker).
 - Output the exact text the user wrote.
+- If the command contains recurring days (e.g., "every Monday of January 2027"), list all the exact dates in YYYY-MM-DD format.
 
 
 Return only JSON with fields:
