@@ -1,7 +1,18 @@
 import React from "react";
 import { Typography, Button, Box } from "@mui/material";
 
+import { useRouter } from "next/router";
+
 function LandingPage() {
+  const router = useRouter();
+
+  const handleLoginClicked = () => {
+    router.push("/login");
+  };
+
+  const handleSignupClicked = () => {
+    router.push("signup");
+  };
   return (
     <Box sx={{ height: "87%", display: "flex" }}>
       <Box
@@ -66,6 +77,7 @@ function LandingPage() {
                 color: "#4e4e4d",
                 width: "30%",
               }}
+              onClick={handleLoginClicked}
             >
               Login
             </Button>
@@ -75,6 +87,7 @@ function LandingPage() {
                 color: "#f5f5f5",
                 width: "30%",
               }}
+              onClick={handleSignupClicked}
             >
               Get Started
             </Button>
