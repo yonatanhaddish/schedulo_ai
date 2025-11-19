@@ -87,6 +87,8 @@ function LandingPage() {
           width: "40%",
           backgroundColor: "#4e4e4d",
           backgroundImage: "url('/images/landing_page.jpeg')",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
         }}
       ></Box>
     </Box>

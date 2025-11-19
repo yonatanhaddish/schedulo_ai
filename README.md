@@ -1,40 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# 📦 Schedulo AI
 
-## Getting Started
+Schedulo AI is an intelligent meeting scheduler that lets users book meetings using natural language commands, automatically handling conflicts, notifications, and calendar integration to save time and streamline team coordination.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+- ✨ **Natural Language Booking** — Schedule meetings using simple English commands like "Book a meeting with John 14th une, 2027 at 10 AM, purpose of the meeting is Annual Meetup".
+- 🔒 **Conflict Detection & Security** — Prevents overlapping meetings.
+- 🧪 **CI/CD & Testing** — GitHub Actions for automated deployment and reliability.
+
+---
+
+## 🛠️ Tech Stack
+
+| Frontend        | Backend | Database | DevOps         | AI Integration |
+| --------------- | ------- | -------- | -------------- | -------------- |
+| React / Next.js | Node.js | MongoDB  | GitHub Actions | OpenAI API     |
+
+---
+
+## ⚙️ Setup & Installation
 
 ```bash
+# 1. Clone the repo
+git clone https://github.com/yonatanhaddish/schedulo_ai
+
+# 2. Install dependencies
+cd schedulo_ai
+npm install
+
+# 3. Create .env file
+cp .env.example .env
+
+# 4. Start the dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🏃 Usage
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+After starting the server:
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+1. open your browser at http://localhost:3000
+2. Type natural language commands in the chat interface like
+   - "Book me a meeting with Homer Simpson for the day of 4th July 2029 from 7pm to 8pm for the purpose of annual Meeting Budget."
+   - "Schedule a meeting with Alice and Bob 15th January 2026 from 3pm to 3:30pm to align on the new feature rollout and assign final tasks."
+3. Your meetings will automatically be added and email will be sent for each participants.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tech Stack
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+| Frontend        | Backend | Database | DevOps         | AI Integration |
+| --------------- | ------- | -------- | -------------- | -------------- |
+| React / Next.js | Node.js | MongoDB  | GitHub Actions | OpenAI API     |
