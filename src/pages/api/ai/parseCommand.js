@@ -46,10 +46,6 @@ Only output valid JSON. No explanations.
     const text = response.choices[0].message.content.trim();
     const parsed = JSON.parse(text);
 
-    console.log("5555", response);
-    console.log("6666", text);
-    console.log("7777", parsed);
-
     res.json({ success: true, parsed });
   } catch (err) {
     console.error("AI Error:", err);

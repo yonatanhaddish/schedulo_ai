@@ -32,9 +32,13 @@ function generateGoogleCalendarLink(b) {
 
 // AI call
 async function parseAI(command) {
-  const res = await axios.post("/api/ai/parseCommand", {
-    command,
-  });
+  const res = await axios.post(
+    "https://schedulo-ai.vercel.app/api/ai/parseCommand",
+    {
+      command,
+    }
+  );
+
   return res.data.parsed;
 }
 

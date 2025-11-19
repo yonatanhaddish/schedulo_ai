@@ -104,6 +104,7 @@ export default function Chatbot() {
 
     setLoading(false);
   }
+  // console.log("777777777", command);
 
   const filteredUsers = users.filter((u) =>
     u.fullName.toLowerCase().includes(search.toLowerCase())
@@ -138,8 +139,6 @@ export default function Chatbot() {
 
     console.log("BCC list sent:", bccList);
   }
-
-  console.log("5555555", resultSent);
 
   useEffect(() => {
     // setMounted(true);
