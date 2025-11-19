@@ -49,9 +49,3 @@ After starting the server:
 3. Your meetings will automatically be added and email will be sent for each participants.
 
 ---
-
-## 🛠️ Tech Stack
-
-| Frontend        | Backend | Database | DevOps         | AI Integration |
-| --------------- | ------- | -------- | -------------- | -------------- |
-| React / Next.js | Node.js | MongoDB  | GitHub Actions | OpenAI API     |
